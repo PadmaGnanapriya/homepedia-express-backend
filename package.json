@@ -1,0 +1,41 @@
+{
+  "name": "homepedia-express-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/index.js",
+    "build": "tsc -w & nodemon dist/index.js",
+    "build-webpack": "webpack --config webpack.config.js",
+    "dev": "nodemon src/index.ts --exec ts-node src/index.ts -e ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PadmaGnanapriya/homepedia-express-backend.git"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "backend",
+    "nodejs"
+  ],
+  "author": "Padma Gnanapriya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PadmaGnanapriya/homepedia-express-backend/issues"
+  },
+  "homepage": "https://github.com/PadmaGnanapriya/homepedia-express-backend#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
