@@ -7,6 +7,7 @@ import messageRoute from "./routes/MessageRoute";
 import errorHandler from "./middleware/errorHandler";
 import userReviewRoutes from "./routes/UserReviewRoute";
 import serviceSupplierRoute from "./routes/ServiceSupplierRoute";
+import serviceCategoryRoute from "./routes/ServiceCategoryRoute";
 
 const app = express();
 
@@ -39,8 +40,9 @@ app.use(helmet());
 app.use(express.json());
 
 app.use('/messages', messageRoute);
-app.use('user-reviews', userReviewRoutes);
-app.use('service-suppliers', serviceSupplierRoute);
+app.use('/user-reviews', userReviewRoutes);
+app.use('/service-suppliers', serviceSupplierRoute);
+app.use('/service-categories', serviceCategoryRoute);
 app.get('/test', (req, res) => {
     res.send('Homepedia backend is running');
 });
