@@ -48,7 +48,8 @@ const getAllServiceSuppliersForAdmin = async () => {
  */
 // TODO: Filter by if given contain service type the serviceTypes array.
 const getAllNonExpiredServiceSuppliersByServiceType = async (serviceType: string) => {
-  return ServiceSupplierModel.find({status: 1, expiredDate: {$lte: new Date()}, serviceTypes: serviceType},
+   console.log(serviceType)
+  return ServiceSupplierModel.find({status: 1, expiredDate: {$lte: new Date()}, serviceTypes:  { "$in" : [serviceType]} },
     readingServiceSupplierFields);
 }
 
@@ -86,6 +87,11 @@ const getServiceSupplierById = async (id: number) => {
   }, readingServiceSupplierFields);
 }
 
+const approveServiceSupplier = async (id: number) => {
+  return ServiceSupplierModel.findOneAndUpdate({_id: id},{$set: {status: 1}}) // Dynamically update field which will send by frontend.
+}
+
+
 /**
  * update service category
  * @param id
@@ -111,6 +117,7 @@ export default {
   getAllNonExpiredServiceSuppliersByArea,
   getAllNonExpiredVipServiceSuppliers,
   getServiceSupplierById,
+  approveServiceSupplier,
   updateServiceSupplier,
   deleteServiceSupplier,
 }
