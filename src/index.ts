@@ -10,6 +10,7 @@ import serviceSupplierRoute from "./routes/ServiceSupplierRoute";
 import serviceCategoryRoute from "./routes/ServiceCategoryRoute";
 import paymentRoutes from "./routes/PaymentRoute";
 import planRoute from "./routes/PlanRoute";
+import faqRoutes from "./routes/FaqRoute";
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use('/service-suppliers', serviceSupplierRoute);
 app.use('/service-categories', serviceCategoryRoute);
 app.use('/payments', paymentRoutes);
 app.use('/plans', planRoute);
+app.use('/faqs', faqRoutes);
 app.get('/test', (req, res) => {
   res.send('Homepedia backend is running');
 });
