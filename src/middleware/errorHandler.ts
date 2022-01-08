@@ -8,7 +8,7 @@
 export function createErrorResponse(error: any) {
   const json: any = {
     status: 'error',
-    message: 'Internal server error'
+    message: 'Internal server error: ' + error
   };
   return json;
 }

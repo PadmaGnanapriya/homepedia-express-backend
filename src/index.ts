@@ -3,55 +3,39 @@ import * as dotenv from "dotenv"
 import mongoose from "mongoose";
 import cors from 'cors';
 import helmet from 'helmet';
-import messageRoute from "./routes/MessageRoute";
 import errorHandler from "./middleware/errorHandler";
-import userReviewRoutes from "./routes/UserReviewRoute";
-import serviceSupplierRoute from "./routes/ServiceSupplierRoute";
-import serviceCategoryRoute from "./routes/ServiceCategoryRoute";
-import paymentRoutes from "./routes/PaymentRoute";
-import planRoute from "./routes/PlanRoute";
-import faqRoutes from "./routes/FaqRoute";
+import router from "./routes";
 
 const app = express();
-
 dotenv.config();
 
 const dbURL: string = process.env.MONGO_DB || '';
+const port: string | number = process.env.PORT || 3001;
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 const initDB = async () => {
   let client;
   try {
     client = await mongoose.connect(dbURL);
   } catch (error) {
-    console.log("Can't connect to MongoDB.");
+    console.log("Can't connect to MongoDB. " + error);
     console.log(error);
   }
   if (client) {
-    console.log("Connected")
+    console.log("Connected");
   }
 }
 initDB().catch(error => console.log(error));
-
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
 // -standard middleware-
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(express.json());
 
-app.use('/messages', messageRoute);
-app.use('/user-reviews', userReviewRoutes);
-app.use('/service-suppliers', serviceSupplierRoute);
-app.use('/service-categories', serviceCategoryRoute);
-app.use('/payments', paymentRoutes);
-app.use('/plans', planRoute);
-app.use('/faqs', faqRoutes);
-app.get('/test', (req, res) => {
-  res.send('Homepedia backend is running');
-});
+app.use('/', router);
 
 //  error handler
 app.use(errorHandler());
@@ -65,8 +49,6 @@ process.on('unhandledRejection', (err) => {
 process.on('uncaughtException', (err) => {
   process.exit(1);
 });
-
-const port = process.env.PORT || 3001;
 
 app.listen(port, () => console.log(`App listening on PORT ${port}`));
 
