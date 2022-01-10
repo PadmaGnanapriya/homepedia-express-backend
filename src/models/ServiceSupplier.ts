@@ -1,7 +1,7 @@
 import {Document, model, Schema} from "mongoose";
 
 export interface ServiceSupplier extends Document {
-    _id: number,
+    firebaseUID: string,
     fullName: string,
     nic: string,
     contactNumber: string,
@@ -29,8 +29,8 @@ export interface ServiceSupplierModel extends ServiceSupplier {
 }
 
 const ServiceSupplierSchema = new Schema({
-    _id: {
-        type: Number,
+    firebaseUID: {
+        type: String,
         required: true,
     },
     fullName: {
@@ -87,10 +87,6 @@ const ServiceSupplierSchema = new Schema({
         required: false
     },
     selectedPlan: {
-        type: String,
-        required: true
-    },
-    paymentType: {
         type: String,
         required: true
     },

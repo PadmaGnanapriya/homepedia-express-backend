@@ -4,11 +4,8 @@ import ServiceSupplierController from "../controllers/ServiceSupplierController"
 const serviceSupplierRoutes = Router();
 
 serviceSupplierRoutes.post('/', ServiceSupplierController.createServiceSupplier);
-serviceSupplierRoutes.get('/for-admin', ServiceSupplierController.getAllServiceSuppliersForAdmin);
-serviceSupplierRoutes.get('/by-type', ServiceSupplierController.getAllNonExpiredServiceSuppliersByServiceType);
-serviceSupplierRoutes.get('/by-area', ServiceSupplierController.getAllNonExpiredServiceSuppliersByArea);
-serviceSupplierRoutes.get('/vip', ServiceSupplierController.getAllNonExpiredVipServiceSuppliers);
-serviceSupplierRoutes.get('/:id', ServiceSupplierController.getServiceSupplierById);
+serviceSupplierRoutes.get('/search', ServiceSupplierController.searchServiceSuppliers);
+serviceSupplierRoutes.get('/', ServiceSupplierController.getAllServiceSuppliersForAdmin);
 serviceSupplierRoutes.patch('/:id', ServiceSupplierController.updateServiceSupplier);
 serviceSupplierRoutes.patch('/approve/:id', ServiceSupplierController.approveServiceSupplierById);
 serviceSupplierRoutes.delete('/:id', ServiceSupplierController.deleteServiceSupplier);

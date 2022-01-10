@@ -28,3 +28,5 @@ chrome-profiler-events*.json
 !.vscode/extensions.json
 .history/*
 
+src/utils/firebaseServiceAccountCredentials.json
+

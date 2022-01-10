@@ -1,15 +1,16 @@
 import ServiceSupplierModel, {ServiceSupplier} from "../models/ServiceSupplier";
 
-const readingServiceSupplierFields = '_id fullName email gender contactNumber workingArea serviceTypes';
+const readingServiceSupplierFields = '_id fullName email gender contactNumber workingArea serviceTypes image rate';
+
 /**
  * create new ServiceSupplier in mongo db
  * @param newServiceSupplier
+ * @param uid
  */
-
-const createServiceSupplier = async (newServiceSupplier: ServiceSupplier) => {
+const createServiceSupplier = async (newServiceSupplier: ServiceSupplier, uid: string) => {
   return await ServiceSupplierModel.create(
     {
-      _id: newServiceSupplier._id,
+      firebaseUID: uid,
       fullName: newServiceSupplier.fullName,
       nic: newServiceSupplier.nic,
       contactNumber: newServiceSupplier.contactNumber,
@@ -24,7 +25,6 @@ const createServiceSupplier = async (newServiceSupplier: ServiceSupplier) => {
       copyOfCertificate: newServiceSupplier.copyOfCertificate, // images urls
       workingExperience: newServiceSupplier.workingExperience,
       selectedPlan: newServiceSupplier.selectedPlan,
-      paymentType: newServiceSupplier.paymentType,
       isVip: newServiceSupplier.isVip,
       expiredDate: newServiceSupplier.expiredDate,
       rate: 0,
@@ -34,7 +34,6 @@ const createServiceSupplier = async (newServiceSupplier: ServiceSupplier) => {
     }
   );
 };
-
 
 /**
  * Sent all ServiceSuppliers
@@ -46,78 +45,61 @@ const getAllServiceSuppliersForAdmin = async () => {
 /**
  * Sent all non expired ServiceSuppliers by service type
  */
-// TODO: Filter by if given contain service type the serviceTypes array.
-const getAllNonExpiredServiceSuppliersByServiceType = async (serviceType: string) => {
-   console.log(serviceType)
-  return ServiceSupplierModel.find({status: 1, expiredDate: {$lte: new Date()}, serviceTypes:  { "$in" : [serviceType]} },
-    readingServiceSupplierFields);
+
+const searchServiceSuppliers = async (queryParams: any) => {
+  let query:any = {status: 1, expiredDate: {$lte: new Date()}};
+  let limitOption:any = null;
+  const {id, workingArea, serviceCategory, isVip, limit} = queryParams;
+
+  if(workingArea){
+    query.workingArea = workingArea;
+  }
+  if(serviceCategory){
+    query.serviceTypes = { "$in" : [serviceCategory]};
+  }
+  if(isVip){
+    query.isVip = isVip;
+  }
+  if(limit){
+    limitOption = {limit: limit}
+  }
+  if(id){
+    return ServiceSupplierModel.findOne({status: 1,expiredDate: {$lte: new Date()},_id: id}, readingServiceSupplierFields);
+  }else {
+    return ServiceSupplierModel.find(query, readingServiceSupplierFields, limitOption);
+  }
 }
 
-/**
- * Sent all non expired ServiceSuppliers by area
- */
-const getAllNonExpiredServiceSuppliersByArea = async (workingArea: string) => {
-  return ServiceSupplierModel.find({
-    status: 1,
-    expiredDate: {$lte: new Date()},
-    workingArea
-  }, readingServiceSupplierFields);
-}
-
-/**
- * Sent all non expired vip ServiceSuppliers
- */
-const getAllNonExpiredVipServiceSuppliers = async () => {
-  return ServiceSupplierModel.find({
-    status: 1,
-    expiredDate: {$lte: new Date()},
-    isVip: true
-  }, readingServiceSupplierFields);
-}
-
-
-/**
- * Sent all non expired ServiceSupplier by Id
- */
-const getServiceSupplierById = async (id: number) => {
-  return ServiceSupplierModel.findOne({
-    status: 1,
-    expiredDate: {$lte: new Date()},
-    _id: id
-  }, readingServiceSupplierFields);
-}
-
-const approveServiceSupplier = async (id: number) => {
+const approveServiceSupplier = async (id: any) => {
   return ServiceSupplierModel.findOneAndUpdate({_id: id},{$set: {status: 1}}) // Dynamically update field which will send by frontend.
 }
-
-
 /**
  * update service category
  * @param id
  * @param serviceSupplier
  */
-const updateServiceSupplier = async (id: number, serviceSupplier: any) => {
+const updateServiceSupplier = async (id: any, serviceSupplier: any) => {
   return ServiceSupplierModel.findOneAndUpdate({_id: id},
     {$set: serviceSupplier}) // Dynamically update field which will send by frontend.
 }
-
 /**
  * Not permanently delete from db. Change status only 1 > 3
  * @param id
  */
-const deleteServiceSupplier = async (id: number) => {
+const deleteServiceSupplier = async (id: any) => {
   return ServiceSupplierModel.findOneAndUpdate({_id: id}, {$set: {status: 3, updatedAt: new Date()}})
+}
+
+const getFirebaseUidByServiceSupplierId =async (id: any) => {
+  return ServiceSupplierModel.findOne({_id: id}, 'firebaseUID')
 }
 
 export default {
   createServiceSupplier,
   getAllServiceSuppliersForAdmin,
-  getAllNonExpiredServiceSuppliersByServiceType,
-  getAllNonExpiredServiceSuppliersByArea,
-  getAllNonExpiredVipServiceSuppliers,
-  getServiceSupplierById,
+  searchServiceSuppliers,
   approveServiceSupplier,
   updateServiceSupplier,
   deleteServiceSupplier,
+  getFirebaseUidByServiceSupplierId,
 }
