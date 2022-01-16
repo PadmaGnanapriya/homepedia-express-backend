@@ -9,7 +9,6 @@ const createUserReview = async (newUserReview: UserReview) => {
   console.log(newUserReview);
   return await UserReviewModel.create(
     {
-      _id: newUserReview._id,
       serviceSupplierId: newUserReview.serviceSupplierId,
       fullName: newUserReview.fullName,
       reviewerEmail: newUserReview.reviewerEmail,

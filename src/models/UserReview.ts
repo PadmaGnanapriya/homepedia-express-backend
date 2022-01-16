@@ -8,7 +8,6 @@
 import {Document, model, Schema} from "mongoose";
 
 export interface UserReview extends Document {
-  _id: number,
   serviceSupplierId: number,
   fullName: string,
   reviewerEmail: string,
@@ -24,10 +23,6 @@ export interface UserReviewModel extends UserReview {
 }
 
 const UserReviewSchema = new Schema({
-  _id: {
-    type: Number,
-    required: true,
-  },
   serviceSupplierId: {
     type: Number,
     required: true,

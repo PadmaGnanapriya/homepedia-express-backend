@@ -6,6 +6,7 @@ import paymentRoutes from "./PaymentRoute";
 import planRoute from "./PlanRoute";
 import faqRoutes from "./FaqRoute";
 import {Router} from "express";
+import adminRoutes from "./AdminRoutes";;
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/service-categories', serviceCategoryRoute);
 router.use('/payments', paymentRoutes);
 router.use('/plans', planRoute);
 router.use('/faqs', faqRoutes);
+router.use('/admins', adminRoutes);
 router.get('/test', (req, res) => {
   res.send('Homepedia backend is running');
 });

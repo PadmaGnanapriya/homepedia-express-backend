@@ -1,7 +1,6 @@
 import {Document, model, Schema} from "mongoose";
 
 export interface Message extends Document {
-  _id: number,
   name: string,
   email: string,
   message: string,
@@ -13,10 +12,6 @@ export interface MessageModel extends Message {
 }
 
 const MessageSchema = new Schema({
-  _id: {
-    type: Number,
-    required: true,
-  },
   name: {
     type: String,
     required: true,

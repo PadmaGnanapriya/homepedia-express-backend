@@ -1,24 +1,22 @@
 import {Document, model, Schema} from "mongoose";
 
 export interface ServiceCategory extends Document {
-  _id: number,
   name: string,
+  icon: string,
   status: number,
   createdAt: Date,
-  createdBy: number,
   updatedAt: Date,
-  updatedBy: number,
 }
 
 export interface ServiceCategoryModel extends ServiceCategory {
 }
 
 const ServiceCategorySchema = new Schema({
-  _id: {
-    type: Number,
+  name: {
+    type: String,
     required: true,
   },
-  name: {
+  icon: {
     type: String,
     required: true,
   },
@@ -30,16 +28,8 @@ const ServiceCategorySchema = new Schema({
     type: Date,
     required: true,
   },
-  createdBy: {
-    type: Number,
-    required: true,
-  },
   updatedAt: {
     type: Date,
-    required: true,
-  },
-  updatedBy: {
-    type: Number,
     required: true,
   },
 });

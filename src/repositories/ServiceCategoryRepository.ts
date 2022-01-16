@@ -8,21 +8,19 @@ import ServiceCategoryModel, {ServiceCategory} from "../models/ServiceCategory";
 const createServiceCategory = async (newServiceCategory: ServiceCategory) => {
   return await ServiceCategoryModel.create(
     {
-      _id: newServiceCategory._id,
       name: newServiceCategory.name,
+      icon: newServiceCategory.icon,
       status: 1,
       createdAt: new Date(),
-      createdBy: newServiceCategory.createdBy,
       updatedAt: new Date(),
-      updatedBy: newServiceCategory.updatedBy,
     }
   );
 };
 /**
- * Sent all ServiceCategorys
+ * Sent all ServiceCategories
  */
 const getAllServiceCategories = async () => {
-  return ServiceCategoryModel.find({status: 1}, '_id name');
+  return ServiceCategoryModel.find({status: 1}, '_id name icon');
 }
 
 /**
@@ -30,7 +28,7 @@ const getAllServiceCategories = async () => {
  * @param id
  * @param serviceCategory
  */
-const updateServiceCategory = async (id: number, serviceCategory: any) => {
+const updateServiceCategory = async (id: any, serviceCategory: any) => {
   return ServiceCategoryModel.findOneAndUpdate({_id: id},
     {$set: {name: serviceCategory.name, updatedBy: serviceCategory.updatedBy, updatedAt: new Date()}})
 }
@@ -39,7 +37,7 @@ const updateServiceCategory = async (id: number, serviceCategory: any) => {
  * Not permanently delete from db. Change status only 1 > 3
  * @param id
  */
-const deleteServiceCategory = async (id: number) => {
+const deleteServiceCategory = async (id: any) => {
   return ServiceCategoryModel.findOneAndUpdate({_id: id}, {$set: {status: 3, updatedAt: new Date()}})
 }
 

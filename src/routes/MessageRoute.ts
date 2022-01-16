@@ -6,7 +6,7 @@ const messageRoutes = Router();
 messageRoutes.post('/', MessageController.createMessage);
 messageRoutes.get('/', MessageController.getAllMessages);
 messageRoutes.get('/:id', MessageController.getMessageById);
-messageRoutes.patch('/:id', MessageController.deleteMessage);
+messageRoutes.delete('/:id', MessageController.deleteMessage);
 
 export default messageRoutes;
 
