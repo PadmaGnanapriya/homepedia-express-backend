@@ -9,6 +9,7 @@ import {Router} from "express";
 import adminRoutes from "./AdminRoutes";
 import visitorRoutes from "./visitorRoute";
 import dashboardRoutes from "./DashboardRoute";
+import cityRoute from "./CityRoute";
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.use('/faqs', faqRoutes);
 router.use('/admins', adminRoutes);
 router.use('/visitor-data', visitorRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/cities', cityRoute);
 router.get('/test', (req, res) => {
   res.send('Homepedia backend is running');
 });
