@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import FAQController from "../controllers/FaqController";
+import authorization, {PERMISSION_TYPES} from "../middleware/authorization";
 
 const faqRoutes = Router();
 
-faqRoutes.post('/', FAQController.createFAQ);
-faqRoutes.get('/', FAQController.getAllFAQs);
-faqRoutes.patch('/:id', FAQController.updateFAQ);
-faqRoutes.delete('/:id', FAQController.deleteFAQ);
+faqRoutes.post('/', authorization([PERMISSION_TYPES.ADMINISTRATOR]), FAQController.createFAQ);
+faqRoutes.get('/',authorization([PERMISSION_TYPES.ANY]), FAQController.getAllFAQs);
+faqRoutes.patch('/:id',authorization([PERMISSION_TYPES.ADMINISTRATOR]), FAQController.updateFAQ);
+faqRoutes.delete('/:id', authorization([PERMISSION_TYPES.ADMINISTRATOR]), FAQController.deleteFAQ);
 
 export default faqRoutes;
 

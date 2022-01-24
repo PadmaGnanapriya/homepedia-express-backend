@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import MessageController from "../controllers/MessageController";
+import authorization, {PERMISSION_TYPES} from "../middleware/authorization";
 
 const messageRoutes = Router();
 
-messageRoutes.post('/', MessageController.createMessage);
-messageRoutes.get('/', MessageController.getAllMessages);
-messageRoutes.get('/:id', MessageController.getMessageById);
-messageRoutes.delete('/:id', MessageController.deleteMessage);
+messageRoutes.post('/',authorization([PERMISSION_TYPES.ANY]), MessageController.createMessage);
+messageRoutes.get('/',authorization([PERMISSION_TYPES.ANY]), MessageController.getAllMessages);
+messageRoutes.get('/:id',authorization([PERMISSION_TYPES.ANY]), MessageController.getMessageById);
+messageRoutes.delete('/:id', authorization([PERMISSION_TYPES.ADMINISTRATOR]), MessageController.deleteMessage);
 
 export default messageRoutes;
 
